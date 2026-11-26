@@ -1,0 +1,17 @@
+{"timestamp":"00:00:00.326","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:01.124","source":"Server","level":"WARN","message":"⚠ Your version of Next.js is affected by a known security vulnerability. This command is continuing after the upgrade reminder.\nReference: https://registry.npmjs.org/-/npm/v1/security/advisories/bulk"}
+{"timestamp":"00:00:08.330","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:08.917","source":"Server","level":"ERROR","message":"⨯ Error: DATABASE_URL is required"}
+{"timestamp":"00:00:08.926","source":"Server","level":"ERROR","message":"⨯ Error: DATABASE_URL is required"}
+{"timestamp":"00:00:12.328","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:12.367","source":"Server","level":"ERROR","message":"⨯ Error: DATABASE_URL is required"}
+{"timestamp":"00:00:12.382","source":"Server","level":"ERROR","message":"⨯ Error: DATABASE_URL is required"}
+{"timestamp":"00:00:13.108","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:13.125","source":"Server","level":"ERROR","message":"⨯ Error: DATABASE_URL is required"}
+{"timestamp":"00:00:13.132","source":"Server","level":"ERROR","message":"⨯ Error: DATABASE_URL is required"}
+{"timestamp":"00:00:29.790","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:29.861","source":"Server","level":"ERROR","message":"⨯ Error: DATABASE_URL is required"}
+{"timestamp":"00:00:29.863","source":"Server","level":"ERROR","message":"⨯ Error: DATABASE_URL is required"}
+{"timestamp":"00:06:03.752","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:06:03.820","source":"Server","level":"ERROR","message":"⨯ Error: DATABASE_URL is required"}
+{"timestamp":"00:06:03.825","source":"Server","level":"ERROR","message":"⨯ Error: DATABASE_URL is required"}

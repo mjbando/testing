@@ -1,0 +1,348 @@
+@import "tailwindcss";
+
+@theme {
+  --font-pixel: "VT323", ui-monospace, monospace;
+  --font-pixel-display: "Pixelify Sans", ui-monospace, monospace;
+}
+
+/* The private log opens above both the game HUD and the daily-results screen. */
+.captain-dialog {
+  margin: auto;
+  padding: 0;
+  width: min(29rem, calc(100vw - 1.5rem));
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  color-scheme: dark;
+  background: #0d182b;
+  color: #f1f5f9;
+  box-shadow: 0 6px 0 #070d17, 0 20px 80px #0009;
+}
+.captain-dialog::backdrop { background: rgb(5 10 22 / 0.78); backdrop-filter: blur(3px); }
+.captain-dialog :is(button, summary, input):focus-visible, .captain-entry:focus-visible { outline: 2px solid #67e8f9; outline-offset: 2px; }
+.captain-dialog summary::-webkit-details-marker { display: none; }
+@media (max-height: 480px) { .captain-dialog { max-height: calc(100dvh - 0.75rem); } }
+
+.daily-adventure-entry { display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin-top:1rem; padding:.65rem .8rem; border:1px solid #456778; border-left:3px solid #73d7c5; background:#173a413b; text-align:left; color:#d7f7ec; text-decoration:none; }
+.daily-adventure-entry:hover { border-color:#a1f1da; background:#254a4d70; }
+.daily-adventure-entry strong { display:block; font-size:15px; letter-spacing:.12em; font-weight:400; }
+.daily-adventure-entry small { display:block; font-size:15px; color:#8fb8c0; }
+.daily-adventure-mark { color:#92e5cd; font-size:24px; }
+.adventure-log { margin:1rem 0; padding:.85rem; border:1px solid #3d5269; border-top:2px solid #b99b55; background:#13233a; }
+
+/* ---------- Pixel UI chrome ---------- */
+.px-box {
+  background: rgba(11, 20, 38, 0.92);
+  clip-path: polygon(
+    0 10px, 5px 10px, 5px 5px, 10px 5px, 10px 0,
+    calc(100% - 10px) 0, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px),
+    calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%,
+    10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0 calc(100% - 10px)
+  );
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.35);
+}
+.px-scan {
+  background-image: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
+}
+.px-btn {
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.35);
+}
+.px-btn:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- Luffy sprite ---------- */
+.luffy-run {
+  animation: luffy-run 0.22s ease-in-out infinite;
+}
+.luffy-idle {
+  animation: luffy-idle 2.4s ease-in-out infinite;
+}
+@keyframes luffy-run {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-6px) rotate(6deg); }
+}
+@keyframes luffy-idle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+.speed-line {
+  animation: speed-line 0.5s linear infinite;
+}
+@keyframes speed-line {
+  from { transform: translateX(0); opacity: 0.9; }
+  to { transform: translateX(-40px); opacity: 0; }
+}
+
+/* ---------- Answer effects ---------- */
+.fx-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  overflow: hidden;
+}
+.fx-particle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 9999px;
+  animation: fx-burst var(--dur) cubic-bezier(0.15, 0.7, 0.2, 1) var(--delay) both;
+  box-shadow: 0 0 10px currentColor;
+}
+.fx-star {
+  border-radius: 0;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+@keyframes fx-burst {
+  0% { transform: translate(-50%, -50%) scale(0.2) rotate(0deg); opacity: 1; }
+  80% { opacity: 1; }
+  100% {
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+.fx-confetti {
+  position: absolute;
+  top: -30px;
+  width: 10px;
+  height: 16px;
+  border-radius: 2px;
+  animation: fx-fall var(--dur) linear var(--delay) both;
+}
+@keyframes fx-fall {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--sway), 110vh) rotate(900deg); opacity: 0.8; }
+}
+.fx-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 4px solid;
+  border-radius: 9999px;
+  animation: fx-ring 1.1s ease-out both;
+}
+@keyframes fx-ring {
+  to { transform: scale(24); opacity: 0; }
+}
+.fx-flash {
+  position: absolute;
+  inset: 0;
+  animation: fx-flash 0.7s ease-out both;
+}
+.fx-flash-rare {
+  background: radial-gradient(circle at center, rgba(96, 165, 250, 0.75), rgba(30, 64, 175, 0.2) 70%, transparent);
+}
+.fx-flash-epic {
+  background: radial-gradient(circle at center, rgba(192, 132, 252, 0.8), rgba(88, 28, 135, 0.3) 70%, transparent);
+}
+.fx-flash-luffillion {
+  background: radial-gradient(circle at center, rgba(253, 224, 71, 0.9), rgba(244, 63, 94, 0.25) 60%, transparent);
+  animation: fx-flash 0.7s ease-out both, fx-strobe 0.18s steps(2, start) 6;
+}
+@keyframes fx-flash {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes fx-strobe {
+  from { filter: hue-rotate(0deg) brightness(1.4); }
+  to { filter: hue-rotate(360deg) brightness(1); }
+}
+.fx-sunburst {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200vmax;
+  height: 200vmax;
+  margin: -100vmax 0 0 -100vmax;
+  background: repeating-conic-gradient(from 0deg, rgba(253, 224, 71, 0.22) 0deg 7deg, transparent 7deg 20deg);
+  animation: fx-spin 2.6s ease-out both;
+}
+@keyframes fx-spin {
+  0% { transform: rotate(0deg) scale(0.2); opacity: 0.95; }
+  100% { transform: rotate(140deg) scale(1.1); opacity: 0; }
+}
+.fx-banner {
+  position: absolute;
+  left: 50%;
+  top: 36%;
+  transform: translate(-50%, -50%);
+  font-weight: 900;
+  font-size: clamp(1.4rem, 5vw, 3.6rem);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  text-shadow: 0 0 22px currentColor, 0 4px 0 #000;
+  animation: fx-banner 2.4s ease-out both;
+}
+@keyframes fx-banner {
+  0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+  15% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  25% { transform: translate(-50%, -50%) scale(1); }
+  80% { opacity: 1; }
+  100% { transform: translate(-50%, -62%) scale(1); opacity: 0; }
+}
+
+/* Screen shake */
+.fx-shake {
+  animation: fx-shake 0.55s linear both;
+}
+@keyframes fx-shake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 1px, 0); }
+  30%, 50%, 70% { transform: translate3d(-9px, -2px, 0); }
+  40%, 60% { transform: translate3d(9px, 2px, 0); }
+}
+
+/* Wrong answer */
+.nope {
+  animation: nope 0.45s ease-in-out;
+}
+@keyframes nope {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+/* Timer bar pulse when low */
+.timer-low {
+  animation: timer-low 0.6s ease-in-out infinite;
+}
+@keyframes timer-low {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* Saga entry banner */
+@keyframes saga-banner {
+  0% { opacity: 0; transform: translateY(16px) scale(0.9); }
+  12% { opacity: 1; transform: translateY(0) scale(1.04); }
+  20% { transform: scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+.saga-banner { animation: saga-banner 2.6s ease-out forwards; }
+
+@keyframes suggest-pop {
+  0% { opacity: 0; transform: translateY(6px) scale(0.96); }
+  100% { opacity: 1; transform: none; }
+}
+.suggest-pop { animation: suggest-pop 0.18s ease-out; }
+
+@keyframes countdown-pop {
+  0% { opacity: 0; transform: translateY(14px) scale(0.94); }
+  100% { opacity: 1; transform: none; }
+}
+.countdown-pop { animation: countdown-pop 0.35s ease-out; }
+
+/* End-of-run score graph */
+@keyframes graph-grow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+.graph-bar { transform-origin: bottom; animation: graph-grow 0.6s ease-out both; }
+@keyframes graph-you {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+.graph-you { animation: graph-you 1s ease-in-out infinite; }
+
+/* Three-way hamburger menu and the captain's achievement collection. */
+.voyage-menu {
+  position: fixed;
+  left: .75rem;
+  top: 150px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  width: min(28rem, calc(100vw - 1.5rem));
+  max-height: min(680px, calc(100dvh - 174px));
+  background-color: #0b1628;
+  filter: drop-shadow(0 12px 24px #0007);
+}
+.voyage-menu :is(button, summary):focus-visible { outline: 2px solid #67e8f9; outline-offset: -3px; }
+.achievement-card { border: 1px solid #29384f; background: #101d30; }
+.achievement-earned { border-color: #8a6c34; background: linear-gradient(110deg, #352c1d55, #152135); }
+.achievement-card summary::-webkit-details-marker { display: none; }
+.achievement-card summary:hover { background: #ffffff04; }
+.crew-equipped { border-left-width: 3px; background: linear-gradient(110deg, #1c3047, #101c30); }
+.crew-card { background: #101d30; }
+.crew-stage { background: radial-gradient(ellipse at 50% 65%, #243c55, #0d192b 75%); }
+.crew-stage::after { content: ''; position: absolute; bottom: 4px; width: 45%; height: 3px; background: #0003; }
+.crew-stage svg { position: relative; z-index: 1; }
+.crew-card[data-equipped='true'] .crew-stage { background: radial-gradient(ellipse at 50% 65%, #4b3c2c, #162033 75%); }
+.crew-card button:disabled { cursor: default; }
+.achievement-toast {
+  position: fixed;
+  z-index: 65;
+  left: .75rem;
+  bottom: 6rem;
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  width: min(340px, calc(100vw - 1.5rem));
+  border: 1px solid #b89143;
+  border-left-width: 4px;
+  padding: .75rem;
+  background: #112036;
+  box-shadow: 0 6px 0 #060c17, 0 12px 28px #0006;
+  animation: suggest-pop .2s ease-out;
+}
+@media (prefers-reduced-motion: reduce) { .achievement-toast { animation: none; } }
+
+/* Locked achievements pop-up */
+.locked-dialog {
+  margin: auto;
+  padding: 0;
+  width: min(24rem, calc(100vw - 1.5rem));
+  color-scheme: dark;
+  background: #0d182b;
+  box-shadow: 0 6px 0 #070d17, 0 18px 60px #000a;
+}
+.locked-dialog::backdrop { background: rgb(5 10 22 / 0.78); backdrop-filter: blur(2px); }
+.locked-dialog :is(button, summary, input):focus-visible { outline: 2px solid #67e8f9; outline-offset: 2px; }
+
+.search-radar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 2px solid #2f6b8a;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle, rgba(32, 94, 127, 0.4) 0%, rgba(11, 16, 32, 0.9) 70%);
+  box-shadow: 0 0 40px rgba(108, 200, 232, 0.25), inset 0 0 30px rgba(108, 200, 232, 0.2);
+}
+.search-radar::before,
+.search-radar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(140, 220, 240, 0.3);
+}
+.search-radar::before { inset: 24px; }
+.search-radar::after { inset: 52px; }
+.search-radar {
+  animation: radar-pulse 1.8s ease-out infinite;
+}
+@keyframes radar-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(108, 200, 232, 0.45), inset 0 0 30px rgba(108, 200, 232, 0.2); }
+  100% { box-shadow: 0 0 0 60px rgba(108, 200, 232, 0), inset 0 0 30px rgba(108, 200, 232, 0.2); }
+}
+
+.pixel-btn {
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-pixel-display, "Pixelify Sans", monospace);
+  letter-spacing: 0.08em;
+  box-shadow: 0 4px 0 #141a25;
+}
+.pixel-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #141a25; }
+
+.pixel-box { border-radius: 2px; }
